@@ -1,0 +1,41 @@
+{{set . "title" "Room"}}
+{{template "header.html" .}}
+
+<script>
+    (function(){
+        socket= new WebSocket('ws://dev.chooos.com:9000/room/{{.id}}/socket');
+        socket.onopen= function() {
+
+        };
+        socket.onclose = function() {
+            console.error('Socket closed')
+        }
+    })();
+</script>
+
+<header class="hero-unit" style="background-color:#A9F16C">
+    <div class="container">
+        <div class="row">
+            <div class="hero-text">
+                <h1>Scrum poker room</h1>
+                {{if .admin }}
+                    <form action="/room/{{ .id }}/delete" method="post">
+                        <input type="submit" value="Close room">
+                    </form>
+                {{else}}
+                    <a href="/">Create new room</a>
+                {{end}}
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="container">
+    <div class="row">
+        <div class="span6">
+            {{template "flash.html" .}}
+        </div>
+    </div>
+</div>
+
+{{template "footer.html" .}}
